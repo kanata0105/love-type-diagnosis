@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Type診断 - 質問</title>
+  <style>
+    body {
+      background-color: #f9efff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    h1 {
+      color: #6d1b7b;
+      margin-bottom: 30px;
+    }
+
+    .question-container {
+      background-color: white;
+      border-radius: 15px;
+      padding: 25px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .option {
+      background-color: #f3e5f5;
+      border: 2px solid #f3e5f5;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .option:hover {
+      background-color: #e1bee7;
+      border-color: #9c27b0;
+    }
+
+    .option.selected {
+      background-color: #e1bee7;
+      border-color: #6d1b7b;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      max-width: 600px;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #fff3b0;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .next-button {
+      margin-top: 20px;
+      display: block;
+      width: 200px;
+      text-align: center;
+      padding: 12px 24px;
+    }
+
+    button:disabled {
+      background-color: #e0e0e0;
+      cursor: not-allowed;
+    }
+
+    .progress-bar {
+      width: 80%;
+      max-width: 600px;
+      height: 10px;
+      background-color: #e6e6e6;
+      border-radius: 5px;
+      margin-bottom: 30px;
+    }
+
+    .progress {
+      height: 100%;
+      background-color: #6d1b7b;
+      border-radius: 5px;
+      width: 16.6%; /* 6問中1問目 = 16.6% */
+    }
+  </style>
+</head>
+<body>
+  <h1>Love Type診断</h1>
+
+  <div class="progress-bar">
+    <div class="progress"></div>
+  </div>
+
+  <div class="question-container">
+    <div class="question">質問1：恋愛において最も重視するのはどれですか？</div>
+    <div class="options">
+      <button class="option" onclick="selectAnswer('A')">感情的なつながりと心の交流</button>
+      <button class="option" onclick="selectAnswer('B')">知的な会話と考え方の一致</button>
+    </div>
+  </div>
+
+  <script>
+    // 初期化：スコアが未設定の場合は初期化
+    if (!localStorage.getItem('loveTypeScore')) {
+      localStorage.setItem('loveTypeScore', JSON.stringify({ A: 0, B: 0, C: 0, D: 0 }));
+    }
+    
+    function selectAnswer(type) {
+      const score = JSON.parse(localStorage.getItem('loveTypeScore')) || { A: 0, B: 0, C: 0, D: 0 };
+      score[type]++;
+      localStorage.setItem('loveTypeScore', JSON.stringify(score));
+      window.location.href = "question2.html"; // 次の質問に進む
+    }
+  </script>
+</body>
+</html> 

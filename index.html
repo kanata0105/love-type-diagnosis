@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Type 診断</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #f9efff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .main-title {
+      font-family: 'Georgia', serif;
+      font-size: 32px;
+      color: #000;
+      line-height: 1.4;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .start-button {
+      background-color: #fff3b0;
+      border: none;
+      padding: 16px 32px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- タイトル -->
+  <h1 class="main-title">What's<br>Your<br>Love<br>Type?</h1>
+
+  <!-- STARTボタン -->
+  <button class="start-button" onclick="startDiagnosis()">START 👉</button>
+
+  <script>
+    // 診断開始
+    function startDiagnosis() {
+      // MBTIスコアをリセット
+      localStorage.setItem('mbtiScore', JSON.stringify({
+        E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
+      }));
+      
+      // 最初の質問ページへ移動
+      location.href = 'question1.html';
+    }
+  </script>
+</body>
+</html> 

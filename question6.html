@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Question 6</title>
+  <style>
+    body {
+      background-color: #f2e8f7;
+      text-align: center;
+      font-family: "Arial", sans-serif;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #555;
+    }
+
+    .question-container {
+      background-color: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+    img {
+      max-width: 200px;
+      margin-bottom: 30px;
+      border-radius: 16px;
+    }
+
+    .options-container {
+      width: 100%;
+    }
+
+    .option-button {
+      display: block;
+      width: 80%;
+      max-width: 300px;
+      margin: 16px auto;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ffc5f3;
+      color: #333;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .option-button:hover {
+      background-color: #ff9ce8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .progress-bar {
+      width: 90%;
+      max-width: 500px;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      width: 100%; /* 6問中6問目 */
+      height: 100%;
+      background-color: #ff9ce8;
+      border-radius: 4px;
+    }
+
+    .test-buttons {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .test-button {
+      padding: 8px 16px;
+      background-color: #e1bee7;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar">
+    <div class="progress"></div>
+  </div>
+
+  <div class="question-container">
+    <h1>Q6</h1>
+    <p>恋人に求めるのは？</p>
+
+    <img src="image/q6.png" alt="質問6イラスト">
+
+    <div class="options-container">
+      <button class="option-button" onclick="selectAnswer('P')">自由で干渉されない関係</button>
+      <button class="option-button" onclick="selectAnswer('J')">安定感とそばにいてくれる安心感</button>
+    </div>
+  </div>
+
+  <!-- テスト用各MBTI結果ボタン -->
+  <div class="test-buttons">
+    <button class="test-button" onclick="showTestResult('INFP')">INFP (A1)</button>
+    <button class="test-button" onclick="showTestResult('INFJ')">INFJ (A2)</button>
+    <button class="test-button" onclick="showTestResult('ENTJ')">ENTJ (A3)</button>
+    <button class="test-button" onclick="showTestResult('ENFP')">ENFP (A4)</button>
+    <button class="test-button" onclick="showTestResult('ISTJ')">ISTJ (A5)</button>
+    <button class="test-button" onclick="showTestResult('INTP')">INTP (A6)</button>
+  </div>
+
+  <script>
+    // MBTIスコアを取得
+    function getMBTIScore() {
+      return JSON.parse(localStorage.getItem('mbtiScore')) || {
+        E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
+      };
+    }
+    
+    // MBTIタイプを計算する
+    function calculateMBTIType(mbtiScore) {
+      // 各軸でスコアの高い方を選択
+      const eOrI = mbtiScore.E > mbtiScore.I ? 'E' : 'I';
+      const sOrN = mbtiScore.S > mbtiScore.N ? 'S' : 'N';
+      const tOrF = mbtiScore.T > mbtiScore.F ? 'T' : 'F';
+      const jOrP = mbtiScore.J > mbtiScore.P ? 'J' : 'P';
+      
+      // MBTIタイプを組み合わせる
+      return eOrI + sOrN + tOrF + jOrP;
+    }
+    
+    // 回答を選択してスコアを加算
+    function selectAnswer(type) {
+      // MBTIスコアを取得
+      const mbtiScore = getMBTIScore();
+      
+      // 選択されたタイプのスコアを加算
+      mbtiScore[type]++;
+      localStorage.setItem('mbtiScore', JSON.stringify(mbtiScore));
+      
+      // MBTIタイプを計算して結果ページへ
+      const mbtiType = calculateMBTIType(mbtiScore);
+      
+      // 結果ページへ遷移
+      window.location.href = "result.html";
+    }
+
+    // テスト用：特定のMBTI結果を直接表示
+    function showTestResult(mbtiType) {
+      // 特定のMBTIタイプのスコアを設定
+      const mbtiScore = {
+        E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
+      };
+      
+      // タイプの各文字に対応するスコアを+2に設定
+      for (let i = 0; i < 4; i++) {
+        const char = mbtiType.charAt(i);
+        mbtiScore[char] = 2; // 明確にするために2点加算
+      }
+      
+      localStorage.setItem('mbtiScore', JSON.stringify(mbtiScore));
+      window.location.href = "result.html";
+    }
+  </script>
+</body>
+</html> 

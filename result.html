@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Type診断 - 結果</title>
+  <style>
+    body {
+      background-color: #f9efff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+    }
+
+    .result-container {
+      text-align: center;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .result-image-container {
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .result-image {
+      max-width: 90%;
+      width: auto;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .retry-button {
+      background-color: #fff3b0;
+      border: none;
+      padding: 16px 32px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 30px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    .retry-button:hover {
+      background-color: #ffe980;
+      transform: translateY(-2px);
+      box-shadow: 2px 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .result-debug {
+      display: none; /* 非表示 */
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <div class="result-image-container">
+      <img id="result-image" class="result-image" src="" alt="診断結果">
+    </div>
+  </div>
+
+  <button class="retry-button" onclick="location.href='index.html'">もう一度診断する</button>
+  
+  <div id="debug-info" class="result-debug"></div>
+
+  <script>
+    // MBTIスコアから適切なMBTIタイプを計算する
+    function calculateMBTIType() {
+      // LocalStorageからスコアを取得
+      const mbtiScore = JSON.parse(localStorage.getItem('mbtiScore')) || {
+        E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
+      };
+      
+      // 各軸でスコアの高い方を選択
+      const eOrI = mbtiScore.E > mbtiScore.I ? 'E' : 'I';
+      const sOrN = mbtiScore.S > mbtiScore.N ? 'S' : 'N';
+      const tOrF = mbtiScore.T > mbtiScore.F ? 'T' : 'F';
+      const jOrP = mbtiScore.J > mbtiScore.P ? 'J' : 'P';
+      
+      // MBTIタイプを組み合わせる
+      return eOrI + sOrN + tOrF + jOrP;
+    }
+
+    // タイプに基づいて結果を表示
+    function displayResult() {
+      // MBTIタイプを計算
+      const mbtiType = calculateMBTIType();
+      
+      // タイプに対応する画像を決定
+      let imageName;
+      
+      // MBTIタイプに基づいて画像ファイル名を決定
+      if (mbtiType === 'INFP' || mbtiType === 'ISFP') {
+        imageName = "A1.png"; // ほわほわ包容系彼氏
+      } else if (mbtiType === 'INFJ' || mbtiType === 'ISFJ' || mbtiType === 'ESFJ') {
+        imageName = "A2.png"; // 静かに惹き込まれる年上彼氏
+      } else if (mbtiType === 'ENTJ' || mbtiType === 'ESTP' || mbtiType === 'ENFJ') {
+        imageName = "A3.png"; // 引っ張りたがりな情熱彼氏
+      } else if (mbtiType === 'ESFP' || mbtiType === 'ENFP') {
+        imageName = "A4.png"; // わんこみたいな年下彼氏
+      } else if (mbtiType === 'ISTJ' || mbtiType === 'INTJ' || mbtiType === 'ESTJ') {
+        imageName = "A5.png"; // 追加タイプ
+      } else if (mbtiType === 'INTP' || mbtiType === 'ENTP' || mbtiType === 'ISTP') {
+        imageName = "A6.png"; // 追加タイプ
+      } else {
+        // 該当なしの場合はランダム
+        const images = ["A1.png", "A2.png", "A3.png", "A4.png", "A5.png", "A6.png"];
+        imageName = images[Math.floor(Math.random() * images.length)];
+      }
+
+      // 画像を表示
+      const imagePath = "image/" + imageName;
+      document.getElementById("result-image").src = imagePath;
+    }
+
+    // ページ読み込み時に結果を表示
+    window.onload = displayResult;
+  </script>
+</body>
+</html> 

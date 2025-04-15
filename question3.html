@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Question 3</title>
+  <style>
+    body {
+      background-color: #fffde6;
+      text-align: center;
+      font-family: "Arial", sans-serif;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: #555;
+    }
+
+    .question-container {
+      background-color: white;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+    img {
+      max-width: 200px;
+      margin-bottom: 30px;
+      border-radius: 16px;
+    }
+
+    .options-container {
+      width: 100%;
+    }
+
+    .option-button {
+      display: block;
+      width: 80%;
+      max-width: 300px;
+      margin: 16px auto;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ffc5f3;
+      color: #333;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .option-button:hover {
+      background-color: #ff9ce8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .progress-bar {
+      width: 90%;
+      max-width: 500px;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      width: 50%; /* 6問中3問目 */
+      height: 100%;
+      background-color: #ff9ce8;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar">
+    <div class="progress"></div>
+  </div>
+
+  <div class="question-container">
+    <h1>Q3</h1>
+    <p>デートの予定はどう決めたい？</p>
+
+    <img src="image/q3.png" alt="質問3イラスト">
+
+    <div class="options-container">
+      <button class="option-button" onclick="selectAnswer('P')">ノリで！その時の気分で！</button>
+      <button class="option-button" onclick="selectAnswer('J')">しっかり計画してから行きたい</button>
+    </div>
+  </div>
+
+  <script>
+    // MBTIスコアを取得
+    function getMBTIScore() {
+      return JSON.parse(localStorage.getItem('mbtiScore')) || {
+        E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
+      };
+    }
+    
+    // 回答を選択してスコアを加算
+    function selectAnswer(type) {
+      // MBTIスコアを取得
+      const mbtiScore = getMBTIScore();
+      
+      // 選択されたタイプのスコアを加算
+      mbtiScore[type]++;
+      localStorage.setItem('mbtiScore', JSON.stringify(mbtiScore));
+      
+      // 次の質問へ進む
+      window.location.href = "question4.html";
+    }
+  </script>
+</body>
+</html> 
